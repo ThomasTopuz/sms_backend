@@ -1,7 +1,7 @@
 # School Management System
 School management system made with spring boot framework, thymeleaf template engine and postres sql database
 # ITA
-## Project requirements
+## Requirements del progetto
   - Classi Student, Teachers e Classe
   - Creare / Leggere / Modificare / Rimuovere risorse
   - assegnare uno studente ad una classe ed un docente ad una classe
