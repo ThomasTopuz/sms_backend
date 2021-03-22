@@ -1,5 +1,5 @@
 # School Management System
-School management system made with spring boot framework, thymeleaf template engine and spring boot
+School management system made with spring boot framework, thymeleaf template engine and postres sql database
 
 
 ## Project requirements:
