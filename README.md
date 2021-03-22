@@ -6,7 +6,7 @@ School management system made with spring boot framework, thymeleaf template eng
   - Creare / Leggere / Modificare / Rimuovere risorse
   - assegnare uno studente ad una classe ed un docente ad una classe
   - Interfaccia web scritta con il template engine thymeleaf
-  - Libreria bootstrap-->https://getbootstrap.com/![Untitled Document (1)](https://user-images.githubusercontent.com/49570615/112051252-01e07b00-8b52-11eb-8ae0-56bc33ecb506.png)
+  - Libreria bootstrap-->https://getbootstrap.com/
  e material design light --> https://getmdl.io/
 
 ## Tecnologie usate
@@ -17,6 +17,7 @@ School management system made with spring boot framework, thymeleaf template eng
   - Gestore pacchetti Maven
   - Motore template Thymeleaf
 
+## Schema ER --> (https://user-images.githubusercontent.com/49570615/112051252-01e07b00-8b52-11eb-8ae0-56bc33ecb506.png)
 
 # EN
 ## Project requirements:
