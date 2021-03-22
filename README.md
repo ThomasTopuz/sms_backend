@@ -8,6 +8,7 @@ School management system made with spring boot framework, thymeleaf template eng
   - Interfaccia web scritta con il template engine thymeleaf
   - Libreria bootstrap-->https://getbootstrap.com/
  e material design light --> https://getmdl.io/
+  - Schema ER --> (https://user-images.githubusercontent.com/49570615/112051252-01e07b00-8b52-11eb-8ae0-56bc33ecb506.png)
 
 ## Tecnologie usate
   - Linguaggio programmazione Java
@@ -16,8 +17,6 @@ School management system made with spring boot framework, thymeleaf template eng
   - Driver Postgres SQL
   - Gestore pacchetti Maven
   - Motore template Thymeleaf
-
-## Schema ER --> (https://user-images.githubusercontent.com/49570615/112051252-01e07b00-8b52-11eb-8ae0-56bc33ecb506.png)
 
 # EN
 ## Project requirements:
