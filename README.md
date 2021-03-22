@@ -12,7 +12,7 @@ School management system made with spring boot framework, thymeleaf template eng
 
 ## Tecnologie usate
   - Linguaggio programmazione Java
-  - Spring boot framework
+  - Spring boot framework, MVC design pattern
   - Spring boot JPA per la persistenza
   - Driver Postgres SQL
   - Gestore pacchetti Maven
