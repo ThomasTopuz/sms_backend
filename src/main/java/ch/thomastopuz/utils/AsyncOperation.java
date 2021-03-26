@@ -1,9 +1,8 @@
 package ch.thomastopuz.utils;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
-@Component
+@Component // let spring boot inject this class for me
 public class AsyncOperation {
     public void await(Runnable runnable, int delay) {
         new Thread(() -> {

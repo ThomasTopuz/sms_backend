@@ -24,8 +24,10 @@ public class SchoolClassService {
     AsyncOperation asyncOperation;
 
     @Autowired // spring framework will inject the studentrespository from the bean
-    public SchoolClassService(SchoolClassRepository classRepository, StudentRepository studentRepository,
-                              TeacherRepository teacherRepository, AsyncOperation asyncOperation) {
+    public SchoolClassService(SchoolClassRepository classRepository,
+                              StudentRepository studentRepository,
+                              TeacherRepository teacherRepository,
+                              AsyncOperation asyncOperation) {
         this.schoolClassRepository = classRepository;
         this.studentRepository = studentRepository;
         this.teacherRepository = teacherRepository;
@@ -46,23 +48,30 @@ public class SchoolClassService {
     }
 
     @Transactional
+    public SchoolClass updateSchoolClass(Long id, SchoolClass newSchoolClass) {
+        Optional<SchoolClass> schoolClass = schoolClassRepository.findById(id);
+        if (schoolClass.isEmpty()) return null;
+        schoolClass.get().setName(newSchoolClass.getName());
+        return schoolClass.get();
+    }
+
+    @Transactional
     public SchoolClass deleteSchoolClass(Long id) {
-        Optional<SchoolClass> deletedSchoolClass = schoolClassRepository.findById(id);
-        if (deletedSchoolClass.isPresent()) {
-            removeAssociations(id);
+        Optional<SchoolClass> schoolClass = schoolClassRepository.findById(id);
+        SchoolClass deletedSchoolClass;
+        if (schoolClass.isPresent()) {
+            deletedSchoolClass = schoolClass.get();
+            removeAssociations(schoolClass.get());
             asyncOperation.await(() -> schoolClassRepository.deleteById(id), 1000);
-            return deletedSchoolClass.get();
+            return deletedSchoolClass;
         } else {
             return null;
         }
     }
 
-    @Transactional
-    public void removeAssociations(Long schoolClassId) {
-        Optional<SchoolClass> schoolClass = schoolClassRepository.findById(schoolClassId);
-        if (schoolClass.isEmpty()) return;
-        schoolClass.get().setStudents(new ArrayList<>()); // empty array list
-        schoolClass.get().setTeacher(null);
+    private void removeAssociations(SchoolClass schoolClass) {
+        schoolClass.setStudents(new ArrayList<>()); // empty array list
+        schoolClass.setTeacher(null);
     }
 
     @Transactional
@@ -77,7 +86,7 @@ public class SchoolClassService {
     }
 
     @Transactional
-    public Student removeStudent(Long studentId, Long schoolClassId) {
+    public Student removeStudent(Long schoolClassId, Long studentId) {
         Optional<Student> student = studentRepository.findById(studentId);
         Optional<SchoolClass> schoolClass = schoolClassRepository.findById(schoolClassId);
         if (student.isEmpty() || schoolClass.isEmpty()) return null;
@@ -96,5 +105,6 @@ public class SchoolClassService {
         schoolClass.get().setTeacher(teacher.get());
         return schoolClass.get();
     }
+
 
 }

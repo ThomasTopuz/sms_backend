@@ -63,6 +63,9 @@ public class Teacher {
         this.schoolClasses = schoolClasses;
     }
 
+    public void removeSchoolClass(SchoolClass schoolClass) {
+        schoolClasses.remove(schoolClass);
+    }
     public long getId() {
         return id;
     }

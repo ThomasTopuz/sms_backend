@@ -1,7 +1,6 @@
 package ch.thomastopuz.services;
 
 import ch.thomastopuz.models.SchoolClass;
-import ch.thomastopuz.models.Student;
 import ch.thomastopuz.models.Teacher;
 import ch.thomastopuz.repositories.SchoolClassRepository;
 import ch.thomastopuz.repositories.TeacherRepository;
@@ -10,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,7 +19,10 @@ public class TeacherService {
     AsyncOperation asyncOperation;
 
     @Autowired
-    public TeacherService(SchoolClassRepository classRepository, TeacherRepository teacherRepository, AsyncOperation asyncOperation) {
+    public TeacherService(
+            SchoolClassRepository classRepository,
+            TeacherRepository teacherRepository,
+            AsyncOperation asyncOperation) {
         this.classRepository = classRepository;
         this.teacherRepository = teacherRepository;
         this.asyncOperation = asyncOperation;
