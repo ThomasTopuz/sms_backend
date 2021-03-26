@@ -20,10 +20,8 @@ public class StudentService {
     AsyncOperation asyncOperation;
 
     @Autowired
-    public StudentService(StudentRepository studentRepository,
-                          SchoolClassRepository classRepository,
-                          SchoolClassService schoolClassService,
-                          AsyncOperation asyncOperation) {
+    public StudentService(StudentRepository studentRepository, SchoolClassRepository classRepository,
+                          SchoolClassService schoolClassService, AsyncOperation asyncOperation) {
         this.studentRepository = studentRepository;
         this.schoolClassRepository = classRepository;
         this.schoolClassService = schoolClassService;
@@ -73,7 +71,7 @@ public class StudentService {
         Optional<Student> student = studentRepository.findById(id);
         if (student.isPresent()) {
             for (SchoolClass schoolClass : student.get().getSchoolClasses()) {
-                schoolClassService.removeStudent(schoolClass.getId(), id);
+                schoolClassService.removeStudent(id, schoolClass.getId());
             }
         }
     }

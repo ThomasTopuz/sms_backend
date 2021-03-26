@@ -1,11 +1,13 @@
 package ch.thomastopuz.models;
 
+import lombok.Data;
+
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table
+@Data
 public class SchoolClass {
     @Id
     @SequenceGenerator(
@@ -19,9 +21,9 @@ public class SchoolClass {
     private String name;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-    private List<Student> students = new ArrayList<>();
+    private List<Student> students;
 
-    @ManyToOne(cascade = CascadeType.ALL) // bidirecional
+    @ManyToOne(cascade = CascadeType.ALL)
     private Teacher teacher;
 
     public SchoolClass() {

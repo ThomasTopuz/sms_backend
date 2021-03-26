@@ -2,6 +2,7 @@ package ch.thomastopuz.controllers;
 
 import ch.thomastopuz.models.SchoolClass;
 import ch.thomastopuz.models.Student;
+import ch.thomastopuz.services.SchoolClassService;
 import ch.thomastopuz.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -11,11 +12,13 @@ import java.util.List;
 @RestController
 @RequestMapping("api/v1/student")
 public class StudentController {
-    StudentService studentService; // dependency injection
+    StudentService studentService;
+    SchoolClassService schoolClassService; // dependency injection
 
     @Autowired
-    public StudentController(StudentService studentService) {
+    public StudentController(StudentService studentService, SchoolClassService schoolClassService) {
         this.studentService = studentService;
+        this.schoolClassService = schoolClassService;
     }
 
     @GetMapping

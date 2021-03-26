@@ -29,27 +29,22 @@ public class SchoolClassController {
         return schoolClassService.getById(Long.parseLong(id));
     }
 
-    @PutMapping("{id}")
-    public SchoolClass updateSchoolClass(@PathVariable String id, @RequestBody SchoolClass schoolClass) {
-        return this.schoolClassService.updateSchoolClass(Long.parseLong(id), schoolClass);
-    }
-
     @PostMapping
     public SchoolClass postClass(@RequestBody SchoolClass schoolClass) {
         return schoolClassService.createSchoolClass(schoolClass);
     }
 
-    @PutMapping("{schoolClassId}/addstudent/{studentId}")
+    @PutMapping("{schoolClassId}/addStudent/{studentId}")
     public SchoolClass addStudent(@PathVariable String schoolClassId, @PathVariable String studentId) {
         return schoolClassService.addStudent(Long.parseLong(schoolClassId), Long.parseLong(studentId));
     }
 
-    @PutMapping("{schoolClassId}/removestudent/{studentId}")
+    @PutMapping("{schoolClassId}/removeStudent/{studentId}")
     public Student removeStudent(@PathVariable String schoolClassId, @PathVariable String studentId) {
-        return schoolClassService.removeStudent(Long.parseLong(schoolClassId), Long.parseLong(studentId));
+        return schoolClassService.removeStudent(Long.parseLong(studentId), Long.parseLong(schoolClassId));
     }
 
-    @PutMapping("{schoolClassId}/assignteacher/{teacherId}")
+    @PutMapping("{schoolClassId}/assignTeacher/{teacherId}")
     public SchoolClass assignTeacher(@PathVariable String schoolClassId, @PathVariable String teacherId) {
         return schoolClassService.assignTeacher(Long.parseLong(schoolClassId), Long.parseLong(teacherId));
     }
