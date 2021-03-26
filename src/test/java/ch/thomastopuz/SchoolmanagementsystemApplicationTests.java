@@ -1,4 +1,4 @@
-package ch.thomastopuz.schoolmanagementsystem;
+package ch.thomastopuz;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

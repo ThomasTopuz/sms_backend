@@ -1,6 +1,6 @@
-package ch.thomastopuz.schoolmanagementsystem.repositories;
+package ch.thomastopuz.repositories;
 
-import ch.thomastopuz.schoolmanagementsystem.models.Student;
+import ch.thomastopuz.models.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
