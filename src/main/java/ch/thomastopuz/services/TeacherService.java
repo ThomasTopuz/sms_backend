@@ -52,7 +52,7 @@ public class TeacherService {
         if (deletedTeacher.isPresent()) {
             // clear associations, set used teachers to null value
             removeAssociations(id);
-            asyncOperation.await(()->teacherRepository.deleteById(id), 1000);
+            asyncOperation.await(() -> teacherRepository.deleteById(id), 1000);
             return deletedTeacher.get();
         } else {
             return null;
@@ -61,8 +61,8 @@ public class TeacherService {
 
     private void removeAssociations(Long teacherId) {
         Optional<Teacher> teacher = teacherRepository.findById(teacherId);
-        if(teacher.isEmpty()) return;
-        for (SchoolClass schoolClass: teacher.get().getSchoolClasses()) {
+        if (teacher.isEmpty()) return;
+        for (SchoolClass schoolClass : teacher.get().getSchoolClasses()) {
             schoolClass.setTeacher(null);
         }
     }
