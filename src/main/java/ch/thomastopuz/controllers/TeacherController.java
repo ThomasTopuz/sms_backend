@@ -29,7 +29,7 @@ public class TeacherController {
         return teacherService.getTeacherById(Long.parseLong(id));
     }
 
-    @GetMapping("{id}/schoolClasses")
+    @GetMapping("{id}/schoolclasses")
     public List<SchoolClass> getSchoolClasses(@PathVariable String id) {
         return teacherService.getSchoolClasses(Long.parseLong(id));
     }

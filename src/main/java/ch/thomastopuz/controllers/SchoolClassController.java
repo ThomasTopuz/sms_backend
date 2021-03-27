@@ -34,17 +34,17 @@ public class SchoolClassController {
         return schoolClassService.createSchoolClass(schoolClass);
     }
 
-    @PutMapping("{schoolClassId}/addStudent/{studentId}")
+    @PutMapping("{schoolClassId}/addstudent/{studentId}")
     public SchoolClass addStudent(@PathVariable String schoolClassId, @PathVariable String studentId) {
         return schoolClassService.addStudent(Long.parseLong(schoolClassId), Long.parseLong(studentId));
     }
 
-    @PutMapping("{schoolClassId}/removeStudent/{studentId}")
+    @PutMapping("{schoolClassId}/removestudent/{studentId}")
     public Student removeStudent(@PathVariable String schoolClassId, @PathVariable String studentId) {
         return schoolClassService.removeStudent(Long.parseLong(studentId), Long.parseLong(schoolClassId));
     }
 
-    @PutMapping("{schoolClassId}/assignTeacher/{teacherId}")
+    @PutMapping("{schoolClassId}/assignteacher/{teacherId}")
     public SchoolClass assignTeacher(@PathVariable String schoolClassId, @PathVariable String teacherId) {
         return schoolClassService.assignTeacher(Long.parseLong(schoolClassId), Long.parseLong(teacherId));
     }
