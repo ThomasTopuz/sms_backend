@@ -13,12 +13,7 @@ import java.util.List;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "schoolClasses"})
 public class Teacher {
     @Id
-    @SequenceGenerator(
-            name = "student_sequence",
-            sequenceName = "student_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_generator")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     private String name;

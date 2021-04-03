@@ -1,5 +1,6 @@
 package ch.thomastopuz.services;
 
+import ch.thomastopuz.dto.SchoolClassCreateDto;
 import ch.thomastopuz.models.Teacher;
 import ch.thomastopuz.repositories.SchoolClassRepository;
 import ch.thomastopuz.models.SchoolClass;
@@ -41,8 +42,10 @@ public class SchoolClassService {
         return schoolClass.orElse(null);
     }
 
-    public SchoolClass createSchoolClass(SchoolClass schoolClass) {
-        return schoolClassRepository.save(schoolClass);
+    public SchoolClass createSchoolClass(SchoolClassCreateDto schoolClassCreateDto) {
+        Optional<Teacher> teacher = teacherRepository.findById(schoolClassCreateDto.getTeacherId());
+        if(teacher.isEmpty()) return null;
+        return schoolClassRepository.save(new SchoolClass(schoolClassCreateDto.getName(), teacher.get()));
     }
 
     @Transactional

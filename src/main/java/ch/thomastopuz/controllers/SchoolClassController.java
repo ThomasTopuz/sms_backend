@@ -1,5 +1,6 @@
 package ch.thomastopuz.controllers;
 
+import ch.thomastopuz.dto.SchoolClassCreateDto;
 import ch.thomastopuz.models.SchoolClass;
 import ch.thomastopuz.models.Student;
 import ch.thomastopuz.services.SchoolClassService;
@@ -19,8 +20,10 @@ public class SchoolClassController {
         this.schoolClassService = classService;
     }
 
+    @CrossOrigin
     @GetMapping
     public List<SchoolClass> getClasses() {
+        System.out.println("foo");
         return schoolClassService.getClasses();
     }
 
@@ -30,7 +33,7 @@ public class SchoolClassController {
     }
 
     @PostMapping
-    public SchoolClass postClass(@RequestBody SchoolClass schoolClass) {
+    public SchoolClass postClass(@RequestBody SchoolClassCreateDto schoolClass) {
         return schoolClassService.createSchoolClass(schoolClass);
     }
 

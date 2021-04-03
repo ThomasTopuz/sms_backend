@@ -7,12 +7,7 @@ import java.util.List;
 @Table
 public class SchoolClass {
     @Id
-    @SequenceGenerator(
-            name = "student_sequence",
-            sequenceName = "student_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_generator")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String name;
