@@ -1,5 +1,7 @@
 package ch.thomastopuz.services;
 
+import ch.thomastopuz.dto.Person.PersonCreateDto;
+import ch.thomastopuz.dto.Person.PersonUpdateDto;
 import ch.thomastopuz.models.SchoolClass;
 import ch.thomastopuz.models.Student;
 import ch.thomastopuz.repositories.SchoolClassRepository;
@@ -43,12 +45,12 @@ public class StudentService {
         return student.get().getSchoolClasses();
     }
 
-    public Student createStudent(Student student) {
-        return studentRepository.save(student);
+    public Student createStudent(PersonCreateDto student) {
+        return studentRepository.save(new Student(student.getName(), student.getSurname(), student.getEmail(), student.getDob()));
     }
 
     @Transactional
-    public Student setStudent(Long studentId, Student newStudent) {
+    public Student setStudent(Long studentId, PersonUpdateDto newStudent) {
         Optional<Student> student = studentRepository.findById(studentId);
         if (student.isEmpty()) return null;
         student.get().setName(newStudent.getName());

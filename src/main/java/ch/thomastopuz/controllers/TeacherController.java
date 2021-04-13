@@ -1,5 +1,7 @@
 package ch.thomastopuz.controllers;
 
+import ch.thomastopuz.dto.Person.PersonCreateDto;
+import ch.thomastopuz.dto.Person.PersonUpdateDto;
 import ch.thomastopuz.models.SchoolClass;
 import ch.thomastopuz.models.Teacher;
 import ch.thomastopuz.services.TeacherService;
@@ -38,14 +40,14 @@ public class TeacherController {
     }
 
     @CrossOrigin
-    @PostMapping("")
-    public Teacher createTeacher(@RequestBody Teacher teacher) {
+    @PostMapping
+    public Teacher createTeacher(@RequestBody PersonCreateDto teacher) {
         return teacherService.createTeacher(teacher);
     }
 
     @CrossOrigin
     @PutMapping("{teacherId}")
-    public Teacher setStudent(@PathVariable String teacherId, @RequestBody Teacher teacher) {
+    public Teacher setStudent(@PathVariable String teacherId, @RequestBody PersonUpdateDto teacher) {
         return teacherService.setTeacher(Long.parseLong(teacherId), teacher);
     }
 

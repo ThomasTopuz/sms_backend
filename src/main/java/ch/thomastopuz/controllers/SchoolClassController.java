@@ -1,6 +1,6 @@
 package ch.thomastopuz.controllers;
 
-import ch.thomastopuz.dto.SchoolClassDto;
+import ch.thomastopuz.dto.SchoolClass.SchoolClassCreateUpdateDto;
 import ch.thomastopuz.models.SchoolClass;
 import ch.thomastopuz.models.Student;
 import ch.thomastopuz.services.SchoolClassService;
@@ -35,13 +35,13 @@ public class SchoolClassController {
 
     @CrossOrigin
     @PostMapping
-    public SchoolClass postClass(@RequestBody SchoolClassDto schoolClass) {
+    public SchoolClass postClass(@RequestBody SchoolClassCreateUpdateDto schoolClass) {
         return schoolClassService.createSchoolClass(schoolClass);
     }
 
     @CrossOrigin
     @PutMapping("{id}")
-    public SchoolClass setSchoolClass(@PathVariable String id, @RequestBody SchoolClassDto schoolClassDto) {
+    public SchoolClass setSchoolClass(@PathVariable String id, @RequestBody SchoolClassCreateUpdateDto schoolClassDto) {
         return schoolClassService.setSchoolClass(Long.parseLong(id), schoolClassDto);
     }
 

@@ -1,5 +1,7 @@
 package ch.thomastopuz.services;
 
+import ch.thomastopuz.dto.Person.PersonCreateDto;
+import ch.thomastopuz.dto.Person.PersonUpdateDto;
 import ch.thomastopuz.models.SchoolClass;
 import ch.thomastopuz.models.Student;
 import ch.thomastopuz.models.Teacher;
@@ -42,8 +44,8 @@ public class TeacherService {
         return teacher.get().getSchoolClasses();
     }
 
-    public Teacher createTeacher(Teacher teacher) {
-        return teacherRepository.save(teacher);
+    public Teacher createTeacher(PersonCreateDto teacher) {
+        return teacherRepository.save(new Teacher(teacher.getName(), teacher.getSurname(), teacher.getEmail(), teacher.getDob()));
     }
 
     @Transactional
@@ -68,7 +70,7 @@ public class TeacherService {
     }
 
     @Transactional
-    public Teacher setTeacher(Long teacherId, Teacher newTeacher) {
+    public Teacher setTeacher(Long teacherId, PersonUpdateDto newTeacher) {
         Optional<Teacher> teacher = teacherRepository.findById(teacherId);
         if (teacher.isEmpty()) return null;
         teacher.get().setName(newTeacher.getName());

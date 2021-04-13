@@ -42,12 +42,11 @@ public class Teacher {
         this.age = age;
     }
 
-    public Teacher(String name, String surname, String email, LocalDate dob, int age) {
+    public Teacher(String name, String surname, String email, LocalDate dob) {
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.dob = dob;
-        this.age = age;
     }
 
     public List<SchoolClass> getSchoolClasses() {
