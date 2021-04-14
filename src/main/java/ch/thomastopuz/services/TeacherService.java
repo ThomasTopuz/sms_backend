@@ -47,36 +47,29 @@ public class TeacherService {
     }
 
     public Teacher createTeacher(PersonCreateDto teacher) {
-        if (!teacher.isValidForPOST()) apiExceptionThrower.throwBadRequestException("Bad request, missing certain property!");
+        if (!teacher.isValidForPOST())
+            apiExceptionThrower.throwBadRequestException("Bad request, missing certain property!");
         return teacherRepository.save(new Teacher(teacher.getName(), teacher.getSurname(), teacher.getEmail(), teacher.getDob()));
-    }
-
-    @Transactional
-    public Teacher deleteTeacher(Long id) {
-        Teacher deletedTeacher = getTeacherById(id);
-        // clear associations, set used teachers to null value
-        removeAssociations(id);
-        asyncOperation.await(() -> teacherRepository.deleteById(id), 1000);
-        return deletedTeacher;
-    }
-
-    private void removeAssociations(Long teacherId) {
-        Teacher teacher = getTeacherById(teacherId);
-        for (SchoolClass schoolClass : teacher.getSchoolClasses()) {
-            schoolClass.setTeacher(null);
-        }
     }
 
     @Transactional
     public Teacher setTeacher(Long teacherId, PersonUpdateDto newTeacher) {
         Teacher teacher = getTeacherById(teacherId);
-        if(newTeacher.getName()!=null)
+        if (newTeacher.getName() != null)
             teacher.setName(newTeacher.getName());
-        if(newTeacher.getSurname()!=null)
+        if (newTeacher.getSurname() != null)
             teacher.setSurname(newTeacher.getSurname());
-        if(newTeacher.getEmail()!=null)
+        if (newTeacher.getEmail() != null)
             teacher.setEmail(newTeacher.getEmail());
         return teacher;
     }
 
+    @Transactional
+    public Teacher deleteTeacher(Long id) {
+        Teacher deletedTeacher = getTeacherById(id);
+        if (deletedTeacher.getSchoolClasses().size() > 0)
+            apiExceptionThrower.throwBadRequestException("Bad request, can't delete teacher because has classes, change teacher in those first!");
+        asyncOperation.await(() -> teacherRepository.deleteById(id), 1000);
+        return deletedTeacher;
+    }
 }
