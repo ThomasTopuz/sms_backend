@@ -1,5 +1,6 @@
 package ch.thomastopuz.services;
 
+import ch.thomastopuz.Exception.ApiExceptionThrower;
 import ch.thomastopuz.dto.Person.PersonCreateDto;
 import ch.thomastopuz.dto.Person.PersonUpdateDto;
 import ch.thomastopuz.models.SchoolClass;
@@ -8,6 +9,7 @@ import ch.thomastopuz.repositories.SchoolClassRepository;
 import ch.thomastopuz.repositories.StudentRepository;
 import ch.thomastopuz.utils.AsyncOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -15,18 +17,19 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+
 public class StudentService {
     StudentRepository studentRepository;
-    SchoolClassRepository schoolClassRepository;
     SchoolClassService schoolClassService;
+    ApiExceptionThrower apiExceptionThrower;
     AsyncOperation asyncOperation;
 
     @Autowired
-    public StudentService(StudentRepository studentRepository, SchoolClassRepository classRepository,
-                          SchoolClassService schoolClassService, AsyncOperation asyncOperation) {
+    public StudentService(StudentRepository studentRepository,
+                          @Lazy SchoolClassService schoolClassService, ApiExceptionThrower apiExceptionThrower, AsyncOperation asyncOperation) {
         this.studentRepository = studentRepository;
-        this.schoolClassRepository = classRepository;
         this.schoolClassService = schoolClassService;
+        this.apiExceptionThrower = apiExceptionThrower;
         this.asyncOperation = asyncOperation;
     }
 
@@ -36,45 +39,45 @@ public class StudentService {
 
     public Student getStudentById(Long id) {
         Optional<Student> student = studentRepository.findById(id);
-        return student.orElse(null);
+        if (student.isEmpty()) apiExceptionThrower.throwNotFoundException("student", id);
+        return student.get();
     }
 
     public List<SchoolClass> getSchoolClasses(Long id) {
-        Optional<Student> student = studentRepository.findById(id);
-        if (student.isEmpty()) return null;
-        return student.get().getSchoolClasses();
+        Student student = getStudentById(id);
+        return student.getSchoolClasses();
     }
 
     public Student createStudent(PersonCreateDto student) {
+        if (!student.isValidForPOST()) apiExceptionThrower.throwBadRequestException("Bad request, missing certain property!");
         return studentRepository.save(new Student(student.getName(), student.getSurname(), student.getEmail(), student.getDob()));
     }
 
     @Transactional
     public Student setStudent(Long studentId, PersonUpdateDto newStudent) {
-        Optional<Student> student = studentRepository.findById(studentId);
-        if (student.isEmpty()) return null;
-        student.get().setName(newStudent.getName());
-        student.get().setSurname(newStudent.getSurname());
-        student.get().setEmail(newStudent.getEmail());
-        return student.get();
+        Student student = getStudentById(studentId);
+        if (newStudent.getName() != null)
+            student.setName(newStudent.getName());
+        if (newStudent.getSurname() != null)
+            student.setSurname(newStudent.getSurname());
+        if (newStudent.getEmail() != null)
+            student.setEmail(newStudent.getEmail());
+        return student;
     }
 
     @Transactional
     public Student deleteStudent(Long id) {
-        Optional<Student> student = studentRepository.findById(id);
-        if (student.isEmpty()) return null;
+        Student student = getStudentById(id);
         // detach all associations before removing
         removeAssociations(id);
         asyncOperation.await(() -> studentRepository.deleteById(id), 1000);// async operation
-        return student.get();
+        return student;
     }
 
     private void removeAssociations(Long id) {
-        Optional<Student> student = studentRepository.findById(id);
-        if (student.isPresent()) {
-            for (SchoolClass schoolClass : student.get().getSchoolClasses()) {
-                schoolClassService.removeStudent(id, schoolClass.getId());
-            }
+        Student student = getStudentById(id);
+        for (SchoolClass schoolClass : student.getSchoolClasses()) {
+            schoolClassService.removeStudent(id, schoolClass.getId());
         }
     }
 

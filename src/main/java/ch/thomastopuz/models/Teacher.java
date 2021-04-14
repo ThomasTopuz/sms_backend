@@ -96,4 +96,16 @@ public class Teacher {
     public Integer getAge() {
         return Period.between(dob, LocalDate.now()).getYears();
     }
+
+    @Override
+    public String toString() {
+        return "Teacher{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", email='" + email + '\'' +
+                ", dob=" + dob +
+                ", age=" + age +
+                '}';
+    }
 }

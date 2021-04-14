@@ -1,5 +1,7 @@
 package ch.thomastopuz.services;
 
+import ch.thomastopuz.Exception.ApiExceptionThrower;
+import ch.thomastopuz.Exception.NotFound.ApiNotFoundException;
 import ch.thomastopuz.dto.SchoolClass.SchoolClassCreateUpdateDto;
 import ch.thomastopuz.models.Teacher;
 import ch.thomastopuz.repositories.SchoolClassRepository;
@@ -8,6 +10,7 @@ import ch.thomastopuz.models.Student;
 import ch.thomastopuz.repositories.StudentRepository;
 import ch.thomastopuz.repositories.TeacherRepository;
 import ch.thomastopuz.utils.AsyncOperation;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,17 +23,19 @@ import java.util.Optional;
 public class SchoolClassService {
 
     SchoolClassRepository schoolClassRepository;
-    StudentRepository studentRepository;
-    TeacherRepository teacherRepository;
+    StudentService studentService;
+    TeacherService teacherService;
+    ApiExceptionThrower apiExceptionThrower;
     AsyncOperation asyncOperation;
 
     @Autowired // spring framework will inject the studentrespository from the bean
-    public SchoolClassService(SchoolClassRepository classRepository, StudentRepository studentRepository,
-                              TeacherRepository teacherRepository, AsyncOperation asyncOperation) {
+    public SchoolClassService(SchoolClassRepository classRepository, StudentService studentService,
+                              TeacherService teacherService, AsyncOperation asyncOperation, ApiExceptionThrower apiExceptionThrower) {
         this.schoolClassRepository = classRepository;
-        this.studentRepository = studentRepository;
-        this.teacherRepository = teacherRepository;
+        this.studentService = studentService;
+        this.teacherService = teacherService;
         this.asyncOperation = asyncOperation;
+        this.apiExceptionThrower = apiExceptionThrower;
     }
 
     public List<SchoolClass> getClasses() {
@@ -39,75 +44,68 @@ public class SchoolClassService {
 
     public SchoolClass getById(Long id) {
         Optional<SchoolClass> schoolClass = schoolClassRepository.findById(id);
-        return schoolClass.orElse(null);
+        if (schoolClass.isEmpty()) throw new ApiNotFoundException("Oops, schoolclass not found!", "schoolclass", id);
+        return schoolClass.get();
     }
 
     public SchoolClass createSchoolClass(SchoolClassCreateUpdateDto schoolClassCreateDto) {
-        Optional<Teacher> teacher = teacherRepository.findById(schoolClassCreateDto.getTeacherId());
-        if (teacher.isEmpty()) return null;
-        return schoolClassRepository.save(new SchoolClass(schoolClassCreateDto.getName(), teacher.get()));
+        if (schoolClassCreateDto.getName() == null || schoolClassCreateDto.getTeacherId() == null)
+            apiExceptionThrower.throwBadRequestException("Bad request, missing class name or teacher id!");
+
+        Teacher teacher = teacherService.getTeacherById(schoolClassCreateDto.getTeacherId());
+        return schoolClassRepository.save(new SchoolClass(schoolClassCreateDto.getName(), teacher));
     }
 
     @Transactional
     public SchoolClass setSchoolClass(long schoolClassId, SchoolClassCreateUpdateDto schoolClassDto) {
-        Optional<SchoolClass> schoolClass = schoolClassRepository.findById(schoolClassId);
-        Optional<Teacher> teacher = teacherRepository.findById(schoolClassDto.getTeacherId());
-        if (schoolClass.isEmpty() || teacher.isEmpty()) return null;
-        schoolClass.get().setName(schoolClassDto.getName());
-        schoolClass.get().setTeacher(teacher.get());
-        return schoolClass.get();
+        if (schoolClassDto.getName() == null || schoolClassDto.getTeacherId() == null)
+            apiExceptionThrower.throwBadRequestException("Bad request, missing class name or teacher id!");
+
+        SchoolClass schoolClass = getById(schoolClassId);
+        Teacher teacher = teacherService.getTeacherById(schoolClassDto.getTeacherId());
+        schoolClass.setName(schoolClassDto.getName());
+        schoolClass.setTeacher(teacher);
+        return schoolClass;
     }
 
     @Transactional
     public SchoolClass deleteSchoolClass(Long id) {
-        Optional<SchoolClass> deletedSchoolClass = schoolClassRepository.findById(id);
-        if (deletedSchoolClass.isPresent()) {
-            removeAssociations(id);
-            asyncOperation.await(() -> schoolClassRepository.deleteById(id), 1000);
-            return deletedSchoolClass.get();
-        } else {
-            return null;
-        }
+        SchoolClass deletedSchoolClass = getById(id);
+        removeAssociations(id);
+        asyncOperation.await(() -> schoolClassRepository.deleteById(id), 1000);
+        return deletedSchoolClass;
     }
 
     @Transactional
     public void removeAssociations(Long schoolClassId) {
         Optional<SchoolClass> schoolClass = schoolClassRepository.findById(schoolClassId);
-        if (schoolClass.isEmpty()) return;
+        if (schoolClass.isEmpty()) apiExceptionThrower.throwNotFoundException("schoolclass", schoolClassId);
         schoolClass.get().setStudents(new ArrayList<>()); // empty array list
         schoolClass.get().setTeacher(null);
     }
 
     @Transactional
     public SchoolClass addStudent(Long schoolClassId, Long studentId) {
-        Optional<Student> student = studentRepository.findById(studentId);
-        Optional<SchoolClass> schoolClass = schoolClassRepository.findById(schoolClassId);
-        if (student.isEmpty() || schoolClass.isEmpty()) {
-            throw new IllegalStateException();
-        }
-        schoolClass.get().addStudent(student.get());
-        return schoolClass.get();
+        Student student = studentService.getStudentById(studentId);
+        SchoolClass schoolClass = getById(schoolClassId);
+        schoolClass.addStudent(student);
+        return schoolClass;
     }
 
     @Transactional
     public Student removeStudent(Long studentId, Long schoolClassId) {
-        Optional<Student> student = studentRepository.findById(studentId);
-        Optional<SchoolClass> schoolClass = schoolClassRepository.findById(schoolClassId);
-        if (student.isEmpty() || schoolClass.isEmpty()) return null;
-
-        schoolClass.get().removeStudent(student.get());
-        return student.get();
+        Student student = studentService.getStudentById(studentId);
+        SchoolClass schoolClass = getById(schoolClassId);
+        schoolClass.removeStudent(student);
+        return student;
     }
 
     @Transactional
     public SchoolClass assignTeacher(Long schoolClassId, Long teacherId) {
-        Optional<Teacher> teacher = teacherRepository.findById(teacherId);
-        Optional<SchoolClass> schoolClass = schoolClassRepository.findById(schoolClassId);
-        if (teacher.isEmpty() || schoolClass.isEmpty()) {
-            throw new IllegalStateException();
-        }
-        schoolClass.get().setTeacher(teacher.get());
-        return schoolClass.get();
+        Teacher teacher = teacherService.getTeacherById(teacherId);
+        SchoolClass schoolClass = getById(schoolClassId);
+        schoolClass.setTeacher(teacher);
+        return schoolClass;
     }
 
 }

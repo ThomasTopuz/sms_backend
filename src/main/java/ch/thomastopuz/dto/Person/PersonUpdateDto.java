@@ -1,9 +1,9 @@
 package ch.thomastopuz.dto.Person;
 
 public class PersonUpdateDto {
-    private String name;
-    private String surname;
-    private String email;
+    protected String name;
+    protected String surname;
+    protected String email;
 
     public String getName() {
         return name;

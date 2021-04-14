@@ -12,4 +12,8 @@ public class PersonCreateDto extends PersonUpdateDto {
     public void setDob(LocalDate dob) {
         this.dob = dob;
     }
+
+    public boolean isValidForPOST() {
+        return super.name!=null && super.surname!=null && super.email!=null && this.dob!=null;
+    }
 }
