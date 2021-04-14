@@ -23,7 +23,6 @@ public class SchoolClassController {
     @CrossOrigin
     @GetMapping
     public List<SchoolClass> getClasses() {
-        System.out.println("foo");
         return schoolClassService.getClasses();
     }
 
