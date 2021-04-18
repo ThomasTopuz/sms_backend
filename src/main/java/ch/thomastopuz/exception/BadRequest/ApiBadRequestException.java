@@ -1,4 +1,4 @@
-package ch.thomastopuz.Exception.BadRequest;
+package ch.thomastopuz.exception.BadRequest;
 
 public class ApiBadRequestException extends RuntimeException {
 

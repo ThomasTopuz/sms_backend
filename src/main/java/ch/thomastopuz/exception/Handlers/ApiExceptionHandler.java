@@ -1,9 +1,9 @@
-package ch.thomastopuz.Exception.Handlers;
+package ch.thomastopuz.exception.Handlers;
 
-import ch.thomastopuz.Exception.BadRequest.ApiBadRequestException;
-import ch.thomastopuz.Exception.BadRequest.ApiBadRequestExceptionPayload;
-import ch.thomastopuz.Exception.NotFound.ApiNotFoundException;
-import ch.thomastopuz.Exception.NotFound.ApiNotFoundExceptionPayload;
+import ch.thomastopuz.exception.BadRequest.ApiBadRequestException;
+import ch.thomastopuz.exception.BadRequest.ApiBadRequestExceptionPayload;
+import ch.thomastopuz.exception.NotFound.ApiNotFoundException;
+import ch.thomastopuz.exception.NotFound.ApiNotFoundExceptionPayload;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

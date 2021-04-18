@@ -1,11 +1,10 @@
 package ch.thomastopuz.services;
 
-import ch.thomastopuz.Exception.ApiExceptionThrower;
+import ch.thomastopuz.exception.ApiExceptionThrower;
 import ch.thomastopuz.dto.Person.PersonCreateDto;
 import ch.thomastopuz.dto.Person.PersonUpdateDto;
 import ch.thomastopuz.models.SchoolClass;
 import ch.thomastopuz.models.Student;
-import ch.thomastopuz.repositories.SchoolClassRepository;
 import ch.thomastopuz.repositories.StudentRepository;
 import ch.thomastopuz.utils.AsyncOperation;
 import org.springframework.beans.factory.annotation.Autowired;

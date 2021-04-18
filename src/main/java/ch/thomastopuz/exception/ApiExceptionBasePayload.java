@@ -1,4 +1,4 @@
-package ch.thomastopuz.Exception;
+package ch.thomastopuz.exception;
 
 import org.springframework.http.HttpStatus;
 

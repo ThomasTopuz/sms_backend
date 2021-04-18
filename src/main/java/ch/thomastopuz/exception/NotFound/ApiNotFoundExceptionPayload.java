@@ -1,6 +1,6 @@
-package ch.thomastopuz.Exception.NotFound;
+package ch.thomastopuz.exception.NotFound;
 
-import ch.thomastopuz.Exception.ApiExceptionBasePayload;
+import ch.thomastopuz.exception.ApiExceptionBasePayload;
 import org.springframework.http.HttpStatus;
 
 import java.time.ZonedDateTime;

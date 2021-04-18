@@ -1,16 +1,13 @@
 package ch.thomastopuz.services;
 
-import ch.thomastopuz.Exception.ApiExceptionThrower;
-import ch.thomastopuz.Exception.NotFound.ApiNotFoundException;
+import ch.thomastopuz.exception.ApiExceptionThrower;
+import ch.thomastopuz.exception.NotFound.ApiNotFoundException;
 import ch.thomastopuz.dto.SchoolClass.SchoolClassCreateUpdateDto;
 import ch.thomastopuz.models.Teacher;
 import ch.thomastopuz.repositories.SchoolClassRepository;
 import ch.thomastopuz.models.SchoolClass;
 import ch.thomastopuz.models.Student;
-import ch.thomastopuz.repositories.StudentRepository;
-import ch.thomastopuz.repositories.TeacherRepository;
 import ch.thomastopuz.utils.AsyncOperation;
-import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

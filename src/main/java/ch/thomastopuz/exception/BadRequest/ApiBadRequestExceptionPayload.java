@@ -1,6 +1,6 @@
-package ch.thomastopuz.Exception.BadRequest;
+package ch.thomastopuz.exception.BadRequest;
 
-import ch.thomastopuz.Exception.ApiExceptionBasePayload;
+import ch.thomastopuz.exception.ApiExceptionBasePayload;
 import org.springframework.http.HttpStatus;
 
 import java.time.ZonedDateTime;

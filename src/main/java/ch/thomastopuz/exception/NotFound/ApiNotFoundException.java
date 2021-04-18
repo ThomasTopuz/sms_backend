@@ -1,4 +1,4 @@
-package ch.thomastopuz.Exception.NotFound;
+package ch.thomastopuz.exception.NotFound;
 
 public class ApiNotFoundException extends RuntimeException {
     private String entity;
