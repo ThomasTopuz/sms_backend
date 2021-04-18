@@ -25,7 +25,8 @@ public class TeacherService {
     AsyncOperation asyncOperation;
 
     @Autowired
-    public TeacherService(TeacherRepository teacherRepository, ApiExceptionThrower apiExceptionThrower, AsyncOperation asyncOperation) {
+    public TeacherService(TeacherRepository teacherRepository, ApiExceptionThrower apiExceptionThrower,
+                          AsyncOperation asyncOperation) {
         this.teacherRepository = teacherRepository;
         this.apiExceptionThrower = apiExceptionThrower;
         this.asyncOperation = asyncOperation;

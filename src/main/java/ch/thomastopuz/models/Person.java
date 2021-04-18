@@ -1,26 +1,79 @@
 package ch.thomastopuz.models;
 
+import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.Period;
 
-public interface Person {
+@MappedSuperclass
+public class Person {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-    long getId();
+    private String name;
 
-    void setId(long id);
+    private String surname;
 
-    String getName();
+    private String email;
 
-    void setName(String name);
+    private final LocalDate dob; // date of birth
 
-    String getSurname();
+    @Transient // not a column
+    private int age;
 
-    void setSurname(String surname);
+    public Person() {
+        this("defaultName", "defaultSurname", "defaultEmail", LocalDate.now());
+    }
 
-    String getEmail();
+    public Person(Long id, String name, String surname, String email, LocalDate dob) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.dob = dob;
+    }
 
-    void setEmail(String email);
+    public Person(String name, String surname, String email, LocalDate dob) {
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.dob = dob;
+    }
 
-    LocalDate getDob();
 
-    Integer getAge();
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public LocalDate getDob() {
+        return dob;
+    }
+
+    public Integer getAge() {
+        return Period.between(dob, LocalDate.now()).getYears();
+    }
 }
