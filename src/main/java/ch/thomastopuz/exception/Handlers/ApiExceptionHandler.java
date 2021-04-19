@@ -12,22 +12,34 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
+/**
+ * the api exceptions handler
+ */
 @ControllerAdvice
 public class ApiExceptionHandler {
-    // bad request
+    /**
+     * the exception handler for the bad request exception
+     *
+     * @param e the throwed exception
+     * @return the exception's payload
+     */
     @ExceptionHandler(value = {ApiBadRequestException.class})
     public ResponseEntity<Object> handleApiBadRequestException(ApiBadRequestException e) {
         HttpStatus badRequest = HttpStatus.BAD_REQUEST; // status code: 400
         ApiBadRequestExceptionPayload apiException = new ApiBadRequestExceptionPayload(
                 e.getMessage(),
-                e,
                 badRequest,
                 ZonedDateTime.now(ZoneId.of("Z"))
         );
         return new ResponseEntity<>(apiException, badRequest);
     }
 
-    // not found
+    /**
+     * the exception handler for the not found exception
+     *
+     * @param e the throwed exception
+     * @return the exception's payload
+     */
     @ExceptionHandler(value = {ApiNotFoundException.class})
     public ResponseEntity<Object> handleApiNotFoundException(ApiNotFoundException e) {
         HttpStatus notFound = HttpStatus.NOT_FOUND; // status code: 404
@@ -35,7 +47,6 @@ public class ApiExceptionHandler {
                 e.getMessage(),
                 e.getEntity(),
                 e.getId(),
-                e,
                 notFound,
                 ZonedDateTime.now(ZoneId.of("Z"))
         );
