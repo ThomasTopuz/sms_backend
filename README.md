@@ -6,8 +6,7 @@ School management system made with spring boot framework, thymeleaf template eng
   - Creare / Leggere / Modificare / Rimuovere risorse
   - assegnare uno studente ad una classe ed un docente ad una classe
   - Interfaccia web scritta usando Reactjs
-  - Libreria bootstrap-->https://getbootstrap.com/
- e material design light --> https://getmdl.io/
+  - Libreria primereact 
   - Schema ER --> (https://user-images.githubusercontent.com/49570615/112051252-01e07b00-8b52-11eb-8ae0-56bc33ecb506.png)
 
 ## Tecnologie usate
@@ -16,7 +15,7 @@ School management system made with spring boot framework, thymeleaf template eng
   - Spring boot JPA per la persistenza
   - Driver Postgres SQL
   - Gestore pacchetti Maven
-  - Motore template Thymeleaf
+  - react frontend framework
 
 # EN
 ## Project requirements:
@@ -28,6 +27,6 @@ School management system made with spring boot framework, thymeleaf template eng
 ## Tech stack:
   - java programming language
   -  spring boot framework
-  -  thymeleaf template engine
+  -  react frontend framework
   -  postgres sql database
   -  maven package manager
